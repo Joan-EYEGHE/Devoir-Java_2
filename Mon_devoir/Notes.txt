@@ -1,0 +1,29 @@
+public  List<Zone> selectAll(){
+
+    List<Zone> zones=new ArrayList<>();
+    try {
+
+     Class.forName("com.mysql.cj.jdbc.Driver");
+     Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/devoir_2024" , "root", "");
+
+      Statement statement = conn.createStatement();
+        String sql="select * from zone";
+      ResultSet rs=   statement.executeQuery(sql);
+        while (rs.next()) {
+            zone ag=new Zone();
+            zone.setId(rs.getInt("id_zone"));
+            zone.setNom(rs.getString("nom_zone"));
+            
+            zones.add(zone);
+        }
+        rs.close();
+        conn.close();
+
+   } catch (ClassNotFoundException e) {
+     System.out.println("Erreur de chargement de Driver");
+   }
+  catch (SQLException e) {
+   System.out.println("Erreur de Connexion a la BD");
+ }
+   return  zones;
+}
